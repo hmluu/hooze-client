@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {withRouter} from 'react-router-dom';
 import { getFriend, updateFriend } from '../API';
 import FriendForm from './FriendForm';
 
@@ -8,7 +7,7 @@ class EditFriend extends Component {
   state = {
     isLoading: true,
     friend: {},
-    isEditing: true
+    isEditing: false
   };
 
   componentDidMount() {
@@ -25,14 +24,21 @@ class EditFriend extends Component {
   }
 
   updateFriend = (friend) => {
+    this.setState({
+      isEditing: true
+    });
     updateFriend(friend.id, friend)
     .then(() => {
-      this.props.history.push(`/friends/${friend.id}`);
+      setTimeout(() => {
+        this.props.history.push(`/friends/${friend.id}`);
+      }, 600);
     });
   }
   render() {
     return this.state.isLoading ?
     <h2>Loading...</h2> :
+    this.state.isEditing ?
+    <h2>Editing...</h2> :
     <FriendForm onFormSubmitted={this.updateFriend} friend={this.state.friend}/>
   }
 }

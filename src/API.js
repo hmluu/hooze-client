@@ -29,3 +29,9 @@ export function updateFriend(id, friend) {
     }
   }).then(res => res.json());
 }
+
+export function deleteFriend(id) {
+  return fetch(`${API_URL}/${id}`, {
+    method: 'DELETE'
+  }).then(res => res.json());
+}

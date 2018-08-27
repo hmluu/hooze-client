@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import {withRouter} from 'react-router-dom';
 import Friend from '../components/Friend';
-import { getFriend } from '../API'
+import { getFriend, deleteFriend } from '../API'
 
 
 class ViewFriend extends Component {
@@ -21,13 +22,20 @@ class ViewFriend extends Component {
         }, 600);
       })
   }
+
+  deleteFriend = () => {
+    deleteFriend(this.state.friend.id)
+      .then(() => {
+        this.props.history.push('/friends');
+      });
+  }
   render() {
     return (
       this.state.isLoading ?
-      <h2>Finding Info ... </h2> :
-      <Friend friend={this.state.friend} cols="col-12" showRelation={true} showEdit={true}/>
+      <h2>... </h2> :
+      <Friend deleteFriend={this.deleteFriend} friend={this.state.friend} cols="col-12" showRelation={true} editing={true}/>
     )
   }
 }
 
-export default ViewFriend;
+export default withRouter(ViewFriend);
